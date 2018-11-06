@@ -54,12 +54,12 @@ var Slider = function() {
 
 
     this.data = {
+      prev: 2,
       current: 0,
       next: 1,
       total: this.images.length - 1,
       delta: 0
     };
-
 
     this.state = {
       animating: false,
@@ -67,27 +67,22 @@ var Slider = function() {
       initial: true
     };
 
-
     this.textures = null;
 
     this.init();
   }
   _createClass(Slider, [{
     key: 'bindAll',
-    value: function bindAll()
-
-    {
+    value: function bindAll() {
       var _this = this;
-      ['render', 'nextSlide'].
+      ['render', 'nextSlide', 'prevSlide'].
       forEach(function(fn) {
         return _this[fn] = _this[fn].bind(_this);
       });
     }
   }, {
     key: 'setStyles',
-    value: function setStyles()
-
-    {
+    value: function setStyles() {
       this.slides.forEach(function(slide, index) {
         if (index === 0) return;
 
@@ -115,9 +110,7 @@ var Slider = function() {
     }
   }, {
     key: 'cameraSetup',
-    value: function cameraSetup()
-
-    {
+    value: function cameraSetup() {
       this.camera = new THREE.OrthographicCamera(
         this.el.offsetWidth / -2,
         this.el.offsetWidth / 2,
@@ -132,9 +125,7 @@ var Slider = function() {
     }
   }, {
     key: 'setup',
-    value: function setup()
-
-    {
+    value: function setup() {
       this.scene = new THREE.Scene();
       this.clock = new THREE.Clock(true);
 
@@ -148,9 +139,7 @@ var Slider = function() {
     }
   }, {
     key: 'loadTextures',
-    value: function loadTextures()
-
-    {
+    value: function loadTextures() {
       var _this2 = this;
       var loader = new THREE.TextureLoader();
       loader.crossOrigin = '';
@@ -168,9 +157,7 @@ var Slider = function() {
     }
   }, {
     key: 'createMesh',
-    value: function createMesh()
-
-    {
+    value: function createMesh() {
       this.mat = new THREE.ShaderMaterial({
         uniforms: {
           dispPower: {
@@ -213,9 +200,7 @@ var Slider = function() {
     }
   }, {
     key: 'transitionNext',
-    value: function transitionNext()
-
-    {
+    value: function transitionNext() {
       var _this3 = this;
       TweenMax.to(this.mat.uniforms.dispPower, 2.5, {
         value: 1,
@@ -230,11 +215,9 @@ var Slider = function() {
       });
 
 
+      var prev = this.slides[this.data.prev];
       var current = this.slides[this.data.current];
       var next = this.slides[this.data.next];
-
-      var currentImages = current.querySelectorAll('.js-slide__img');
-      var nextImages = next.querySelectorAll('.js-slide__img');
 
       var currentText = current.querySelectorAll('.js-slider__text-line div');
       var nextText = next.querySelectorAll('.js-slider__text-line div');
@@ -264,15 +247,6 @@ var Slider = function() {
       }
 
       tl.
-      staggerFromTo(currentImages, 1.5, {
-          yPercent: 0,
-          scale: 1
-        }, {
-          yPercent: -185,
-          scaleY: 1.5,
-          ease: Expo.easeInOut
-        },
-        0.075).
       to(currentBulletTxt, 1.5, {
           alpha: 0.25,
           ease: Linear.easeNone
@@ -299,16 +273,6 @@ var Slider = function() {
           0);
       }
 
-      tl.
-      set(current, {
-        autoAlpha: 0
-      }).
-
-      set(next, {
-          autoAlpha: 1
-        },
-        1);
-
       if (nextText) {
         tl.
         fromTo(nextText, 2, {
@@ -321,15 +285,6 @@ var Slider = function() {
       }
 
       tl.
-      staggerFromTo(nextImages, 1.5, {
-          yPercent: 150,
-          scaleY: 1.5
-        }, {
-          yPercent: 0,
-          scaleY: 1,
-          ease: Expo.easeInOut
-        },
-        0.075, 1).
       to(nextBulletTxt, 1.5, {
           alpha: 1,
           ease: Linear.easeNone
@@ -349,16 +304,20 @@ var Slider = function() {
     }
   }, {
     key: 'prevSlide',
-    value: function prevSlide()
+    value: function prevSlide() {
+      if (this.state.animating) return;
 
-    {
+      this.state.animating = true;
+
+      this.transitionNext();
+
+      this.data.current = this.data.current === this.data.total ? 0 : this.data.current + 1;
+      this.data.next = this.data.current === this.data.total ? 0 : this.data.current + 1;
 
     }
   }, {
     key: 'nextSlide',
-    value: function nextSlide()
-
-    {
+    value: function nextSlide() {
       if (this.state.animating) return;
 
       this.state.animating = true;
@@ -370,33 +329,24 @@ var Slider = function() {
     }
   }, {
     key: 'changeTexture',
-    value: function changeTexture()
-
-    {
+    value: function changeTexture() {
       this.mat.uniforms.texture1.value = this.textures[this.data.current];
       this.mat.uniforms.texture2.value = this.textures[this.data.next];
     }
   }, {
     key: 'listeners',
-    value: function listeners()
-
-    {
-      window.addEventListener('wheel', this.nextSlide, {
-        passive: true
-      });
+    value: function listeners() {
+      document.querySelector('.js-nav-forward').addEventListener('click', this.nextSlide);
+      document.querySelector('.js-nav-back').addEventListener('click', this.prevSlide);
     }
   }, {
     key: 'render',
-    value: function render()
-
-    {
+    value: function render() {
       this.renderer.render(this.scene, this.camera);
     }
   }, {
     key: 'init',
-    value: function init()
-
-    {
+    value: function init() {
       this.setup();
       this.cameraSetup();
       this.loadTextures();
