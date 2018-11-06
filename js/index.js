@@ -199,8 +199,8 @@ var Slider = function() {
       this.scene.add(mesh);
     }
   }, {
-    key: 'transitionNext',
-    value: function transitionNext() {
+    key: 'transition',
+    value: function transition(direction) {
       var _this3 = this;
       TweenMax.to(this.mat.uniforms.dispPower, 2.5, {
         value: 1,
@@ -208,7 +208,7 @@ var Slider = function() {
         onUpdate: this.render,
         onComplete: function onComplete() {
           _this3.mat.uniforms.dispPower.value = 0.0;
-          _this3.changeTexture();
+          _this3.changeTexture(direction);
           _this3.render.bind(_this3);
           _this3.state.animating = false;
         }
@@ -309,10 +309,11 @@ var Slider = function() {
 
       this.state.animating = true;
 
-      this.transitionNext();
+      this.transition('prev');
 
-      this.data.current = this.data.current === this.data.total ? 0 : this.data.current + 1;
-      this.data.next = this.data.current === this.data.total ? 0 : this.data.current + 1;
+      this.data.current = this.data.current === 0 ? 2 : this.data.current - 1;
+      this.data.prev = this.data.current === 0 ? 2 : this.data.current - 1;
+      this.data.next = this.data.current === 0 ? 2 : this.data.current - 1;
 
     }
   }, {
@@ -322,16 +323,22 @@ var Slider = function() {
 
       this.state.animating = true;
 
-      this.transitionNext();
+      this.transition('next');
 
       this.data.current = this.data.current === this.data.total ? 0 : this.data.current + 1;
       this.data.next = this.data.current === this.data.total ? 0 : this.data.current + 1;
+      this.data.prev = this.data.current === this.data.total ? 0 : this.data.current + 1;
     }
   }, {
     key: 'changeTexture',
-    value: function changeTexture() {
+    value: function changeTexture(direction) {
       this.mat.uniforms.texture1.value = this.textures[this.data.current];
-      this.mat.uniforms.texture2.value = this.textures[this.data.next];
+      if (direction != 'next') {
+          console.log(direction);
+        this.mat.uniforms.texture2.value = this.textures[this.data.prev];
+      } else {
+        this.mat.uniforms.texture2.value = this.textures[this.data.next];
+      }
     }
   }, {
     key: 'listeners',
