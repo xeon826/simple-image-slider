@@ -186,6 +186,7 @@ var Slider = function() {
         transparent: true,
         vertexShader: document.querySelector('#vertexShader').textContent,
         fragmentShader: document.querySelector('#fragmentShader').textContent
+
       });
 
 
@@ -215,93 +216,10 @@ var Slider = function() {
         }
       });
 
-
       var prev = this.slides[this.data.prev];
       var current = this.slides[this.data.current];
       var next = this.slides[this.data.next];
 
-      var currentText = current.querySelectorAll('.js-slider__text-line div');
-      var nextText = next.querySelectorAll('.js-slider__text-line div');
-
-      var currentBullet = this.bullets[this.data.current];
-      var nextBullet = this.bullets[this.data.next];
-
-      var currentBulletTxt = currentBullet.querySelectorAll('.js-slider-bullet__text');
-      var nextBulletTxt = nextBullet.querySelectorAll('.js-slider-bullet__text');
-
-      var currentBulletLine = currentBullet.querySelectorAll('.js-slider-bullet__line');
-      var nextBulletLine = nextBullet.querySelectorAll('.js-slider-bullet__line');
-
-      var tl = new TimelineMax({
-        paused: true
-      });
-
-      if (this.state.initial) {
-        TweenMax.to('.js-scroll', 1.5, {
-          yPercent: 100,
-          alpha: 0,
-          ease: Power4.easeInOut
-        });
-
-
-        this.state.initial = false;
-      }
-
-      tl.
-      to(currentBulletTxt, 1.5, {
-          alpha: 0.25,
-          ease: Linear.easeNone
-        },
-        0).
-      set(currentBulletLine, {
-          transformOrigin: 'right'
-        },
-        0).
-      to(currentBulletLine, 1.5, {
-          scaleX: 0,
-          ease: Expo.easeInOut
-        },
-        0);
-
-      if (currentText) {
-        tl.
-        fromTo(currentText, 2, {
-            yPercent: 0
-          }, {
-            yPercent: -100,
-            ease: Power4.easeInOut
-          },
-          0);
-      }
-
-      if (nextText) {
-        tl.
-        fromTo(nextText, 2, {
-            yPercent: 100
-          }, {
-            yPercent: 0,
-            ease: Power4.easeOut
-          },
-          1.5);
-      }
-
-      tl.
-      to(nextBulletTxt, 1.5, {
-          alpha: 1,
-          ease: Linear.easeNone
-        },
-        1).
-      set(nextBulletLine, {
-          transformOrigin: 'left'
-        },
-        1).
-      to(nextBulletLine, 1.5, {
-          scaleX: 1,
-          ease: Expo.easeInOut
-        },
-        1);
-
-      tl.play();
     }
   }, {
     key: 'prevSlide',
@@ -333,10 +251,6 @@ var Slider = function() {
     key: 'changeTexture',
     value: function changeTexture(direction) {
       this.mat.uniforms.texture1.value = this.textures[this.data.current];
-      console.log('previous ' + this.data.prev);
-      console.log('next ' + this.data.next);
-      console.log('current ' + this.data.current);
-      // console.log('total ' + this.data.total);
       this.mat.uniforms.texture2.value = direction === 'next' ? this.textures[this.data.next] : this.textures[this.data.prev];
     }
   }, {
@@ -364,20 +278,6 @@ var Slider = function() {
   }]);
   return Slider;
 }();
-
-
-// Toggle active link
-var links = document.querySelectorAll('.js-nav a');
-
-links.forEach(function(link) {
-  link.addEventListener('click', function(e) {
-    e.preventDefault();
-    links.forEach(function(other) {
-      return other.classList.remove('is-active');
-    });
-    link.classList.add('is-active');
-  });
-});
 
 // Init classes
 var slider = new Slider();
