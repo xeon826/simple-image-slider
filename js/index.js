@@ -54,11 +54,12 @@ var Slider = function() {
 
 
     this.data = {
-      prev: 2,
+      prev: this.images.length - 1,
       current: 0,
       next: 1,
       total: this.images.length - 1,
-      delta: 0
+      delta: 0,
+      has_clicked: 0
     };
 
     this.state = {
@@ -158,6 +159,10 @@ var Slider = function() {
   }, {
     key: 'createMesh',
     value: function createMesh() {
+
+      console.log('previous ' + this.data.prev);
+      console.log('next ' + this.data.next);
+      console.log('current ' + this.data.current);
       this.mat = new THREE.ShaderMaterial({
         uniforms: {
           dispPower: {
@@ -311,10 +316,9 @@ var Slider = function() {
 
       this.transition('prev');
 
-      this.data.current = this.data.current === 0 ? 2 : this.data.current - 1;
+      this.data.current = this.data.current === 0 ? 0 : this.data.current - 1;
       this.data.prev = this.data.current === 0 ? 2 : this.data.current - 1;
-      this.data.next = this.data.current === 0 ? 2 : this.data.current - 1;
-
+      this.data.next = this.data.current === 0 ? 1 : this.data.current + 1;
     }
   }, {
     key: 'nextSlide',
@@ -325,20 +329,33 @@ var Slider = function() {
 
       this.transition('next');
 
-      this.data.current = this.data.current === this.data.total ? 0 : this.data.current + 1;
+      // this.data.current = this.data.current === this.data.total ? 0 : this.data.current + 1;
+      var is_total = 0;
+      if (this.data.current === this.data.total) {
+        is_total = 1;
+        this.data.current = 0;
+      }
+      else {
+        this.data.current++;
+      }
       this.data.next = this.data.current === this.data.total ? 0 : this.data.current + 1;
-      this.data.prev = this.data.current === this.data.total ? 0 : this.data.current + 1;
+      if (is_total) {
+        this.data.prev = 2;
+      } else {
+        this.data.prev = this.data.current - 1;
+      }
+      // this.data.prev = this.data.current === this.data.total ? 1 : this.data.current - 1;
+      console.log('previous ' + this.data.prev);
+      console.log('next ' + this.data.next);
+      console.log('current ' + this.data.current);
+      console.log(this.textures);
     }
   }, {
     key: 'changeTexture',
     value: function changeTexture(direction) {
       this.mat.uniforms.texture1.value = this.textures[this.data.current];
-      if (direction != 'next') {
-          console.log(direction);
-        this.mat.uniforms.texture2.value = this.textures[this.data.prev];
-      } else {
-        this.mat.uniforms.texture2.value = this.textures[this.data.next];
-      }
+      // console.log('total ' + this.data.total);
+      this.mat.uniforms.texture2.value = direction === 'next' ? this.textures[this.data.prev] : this.textures[this.data.next];
     }
   }, {
     key: 'listeners',
