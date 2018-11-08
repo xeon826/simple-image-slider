@@ -47,19 +47,18 @@ var Slider = function() {
     this.camera = null;
 
     this.images = [
-      'https://s3-us-west-2.amazonaws.com/s.cdpn.io/58281/bg1.jpg',
+      '../img/happy_face.png',
       'https://s3-us-west-2.amazonaws.com/s.cdpn.io/58281/bg2.jpg',
       'https://s3-us-west-2.amazonaws.com/s.cdpn.io/58281/bg3.jpg'
     ];
 
 
     this.data = {
-      prev: this.images.length - 1,
+      prev: 2,
       current: 0,
       next: 1,
       total: this.images.length - 1,
       delta: 0,
-      has_clicked: 0
     };
 
     this.state = {
