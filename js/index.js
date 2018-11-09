@@ -264,6 +264,18 @@ var Slider = function() {
         e.preventDefault();
         this.prevSlide();
       });
+      $(window).on('scroll', () => {
+        if ($(window).scrollTop() > 200) {
+          $('.slider').css({
+            'width': '100vw',
+            'height': '56vw'
+          })
+        }
+        // this.renderer.setSize($('.slider').width(), $('.slider').height());
+        this.renderer.setSize(this.el.offsetWidth, this.el.offsetHeight);
+        this.renderer.render(this.scene, this.camera);
+      })
+
     }
   }, {
     key: 'render',

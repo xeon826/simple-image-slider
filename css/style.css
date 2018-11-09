@@ -86,11 +86,13 @@ ul, li {
 }
 
 .slider {
-  width: 100vmax;
-  height: 51vmax;
+  overflow: visible;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 78vw;
+  height: 41vw;
   position: absolute;
-  left: 0;
-  top: 20vmin;
+  top: 0;
   right: 0;
   bottom: 0;
 }
@@ -102,8 +104,11 @@ ul, li {
   bottom: 0;
 }
 .slider canvas {
+  transition: .5s;
+  left: 50%;
+  margin:auto;
+  transform: translateX(-50%);
   position: absolute;
-  left: 0;
   top: 0;
   right: 0;
   bottom: 0;
