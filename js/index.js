@@ -47,7 +47,7 @@ var Slider = function() {
     this.camera = null;
 
     this.images = [
-      '../img/happy_face.png',
+      'https://s3-us-west-2.amazonaws.com/s.cdpn.io/58281/bg1.jpg',
       'https://s3-us-west-2.amazonaws.com/s.cdpn.io/58281/bg2.jpg',
       'https://s3-us-west-2.amazonaws.com/s.cdpn.io/58281/bg3.jpg'
     ];
@@ -117,7 +117,8 @@ var Slider = function() {
         this.el.offsetHeight / 2,
         this.el.offsetHeight / -2,
         1,
-        1000);
+        1000
+      );
 
 
       this.camera.lookAt(this.scene.position);
@@ -280,3 +281,53 @@ var Slider = function() {
 
 // Init classes
 var slider = new Slider();
+
+// animate slider
+// $('.slider__inner').children('canvas').removeAttr('width');
+// $('.slider__inner').children('canvas').removeAttr('height');
+// $('.slider__inner').children('canvas').removeAttr('style');
+// $('.slider__inner').children('canvas').attr('width', '100vmax');
+// $('.slider__inner').children('canvas').attr('height', '51vmax');
+// $('.slider').animate({
+//   'width': '100vmax',
+//   'height': '51vmax'
+// })
+
+// Detect scroll top past 500px
+// $(window).on('scroll', function(event) {
+//   if ($(this).scrollTop() > 500) {
+//     $('.slider').
+//   }
+// })
+
+
+function preventDefault(e) {
+  e = e || window.event;
+  if (e.preventDefault)
+    e.preventDefault();
+  e.returnValue = false;
+}
+
+function preventDefaultForScrollKeys(e) {
+  if (keys[e.keyCode]) {
+    preventDefault(e);
+    return false;
+  }
+}
+function disableScroll() {
+  if (window.addEventListener) // older FF
+    window.addEventListener('DOMMouseScroll', preventDefault, false);
+  window.onwheel = preventDefault; // modern standard
+  window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
+  window.ontouchmove = preventDefault; // mobile
+  document.onkeydown = preventDefaultForScrollKeys;
+}
+
+function enableScroll() {
+  if (window.removeEventListener)
+    window.removeEventListener('DOMMouseScroll', preventDefault, false);
+  window.onmousewheel = document.onmousewheel = null;
+  window.onwheel = null;
+  window.ontouchmove = null;
+  document.onkeydown = null;
+}
