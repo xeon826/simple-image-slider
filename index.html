@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <title>Fashion concept</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="https://use.typekit.net/dsw4ivk.css">
 
 
-      <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css">
 
 
 </head>
@@ -17,33 +18,75 @@
 
 
 
-<div class="slider js-slider">
-  <nav class="nav nav--left js-nav">
-  <ul>
-    <li>
-      <a class="js-nav-back" href="#"><span>Back</span></a>
-    </li>
-    <li>
-      <a class="js-nav-forward" href="#"><span>Forward</span></a>
-    </li>
-  </ul>
-</nav>
-  <div class="slider__inner js-slider__inner"></div>
-</div>
+  <div class="slider js-slider">
+    <nav class="nav nav--left js-nav">
+      <ul>
+        <li>
+          <a class="js-nav-back" href="#"><span>Back</span></a>
+        </li>
+        <li>
+          <a class="js-nav-forward" href="#"><span>Forward</span></a>
+        </li>
+      </ul>
+    </nav>
+    <div class="slider__inner js-slider__inner"></div>
+    <a class="slide js-slide">
+      <div class="slide__content">
+        <div class="slider__text js-slider__text">
+          <div class="slider__text-line js-slider__text-line">
+            <div>Featured Project</div>
+          </div>
+          <div class="slider__text-line js-slider__text-line">
+            <div>Tsunami Waves</div>
+          </div>
+          <div class="slider__text-line js-slider__text-line">
+            <div>Foundation</div>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a class="slide js-slide">
+      <div class="slide__content">
+        <div class="slider__text js-slider__text">
+          <div class="slider__text-line js-slider__text-line">
+            <div>Featured Project</div>
+          </div>
+          <div class="slider__text-line js-slider__text-line">
+            <div>Tropical Coffee</div>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a class="slide js-slide">
+      <div class="slide__content">
+        <div class="slider__text js-slider__text">
+          <div class="slider__text-line js-slider__text-line">
+            <div>Featured Project</div>
+          </div>
+          <div class="slider__text-line js-slider__text-line">
+            <div>Arrowhead</div>
+          </div>
+          <div class="slider__text-line js-slider__text-line">
+            <div>Building Supply</div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
 
   <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/97/three.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js'></script>
 
-<script id="vertexShader" type="x-shader/x-vertex">
-  varying vec2 vUv;
+  <script id="vertexShader" type="x-shader/x-vertex">
+    varying vec2 vUv;
   void main() {
     vUv = uv;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   }
 </script>
 
-<script id="fragmentShader" type="x-shader/x-fragment">
-  varying vec2 vUv;
+  <script id="fragmentShader" type="x-shader/x-fragment">
+    varying vec2 vUv;
 
   uniform sampler2D texture1;
   uniform sampler2D texture2;
@@ -69,8 +112,8 @@
 </script>
 
 
-    <script  src="js/jquery.min.js"></script>
-    <script  src="js/index.js"></script>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/index.js"></script>
 
 
 

@@ -47,9 +47,9 @@ var Slider = function() {
     this.camera = null;
 
     this.images = [
-      'https://s3-us-west-2.amazonaws.com/s.cdpn.io/58281/bg1.jpg',
-      'https://s3-us-west-2.amazonaws.com/s.cdpn.io/58281/bg2.jpg',
-      'https://s3-us-west-2.amazonaws.com/s.cdpn.io/58281/bg3.jpg'
+      '../img/tsunami-waves.png',
+      '../img/tropical-coffee.png',
+      '../img/arrow-head.png'
     ];
 
 
@@ -211,6 +211,7 @@ var Slider = function() {
         onUpdate: this.render,
         onComplete: function onComplete() {
           _this3.mat.uniforms.dispPower.value = 0.0;
+          _this3.changeTexture(direction);
           _this3.render.bind(_this3);
           _this3.state.animating = false;
         }
@@ -219,6 +220,46 @@ var Slider = function() {
       var prev = this.slides[this.data.prev];
       var current = this.slides[this.data.current];
       var next = this.slides[this.data.next];
+
+      var currentText = current.querySelectorAll('.js-slider__text-line div');
+      var nextText = next.querySelectorAll('.js-slider__text-line div');
+
+      var tl = new TimelineMax({
+        paused: true
+      });
+
+      if (currentText) {
+        tl.
+        fromTo(currentText, 2, {
+            yPercent: 0
+          }, {
+            yPercent: -100,
+            ease: Power4.easeInOut
+          },
+          0);
+      }
+
+      tl.
+      set(current, {
+        autoAlpha: 0
+      }).
+
+      set(next, {
+          autoAlpha: 1
+        },
+        1);
+
+      if (nextText) {
+        tl.
+        fromTo(nextText, 2, {
+            yPercent: 100
+          }, {
+            yPercent: 0,
+            ease: Power4.easeOut
+          },
+          1.5);
+      }
+      tl.play();
 
     }
   }, {
@@ -270,12 +311,15 @@ var Slider = function() {
             'width': '100vw',
             'height': '56vw'
           })
-          $('.nav').animate({
-            'width':'95%'
+          $('.nav, .slider__text').animate({
+            'opacity': '1'
           })
         }
         this.renderer.setSize(this.el.offsetWidth, this.el.offsetHeight);
         this.renderer.render(this.scene, this.camera);
+      })
+      $('body *').on('click', function() {
+        console.log($(this));
       })
 
     }
