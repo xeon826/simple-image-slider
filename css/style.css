@@ -34,7 +34,8 @@ ul, li {
   justify-content: center;
   align-items: center;
   display: flex;
-  width: 95%;
+  width: 0;
+  overflow: hidden;
   top: 2rem;
   z-index: 10;
 }
@@ -92,7 +93,7 @@ ul, li {
   width: 78vw;
   height: 41vw;
   position: absolute;
-  top: 0;
+  top: 20vh;
   right: 0;
   bottom: 0;
 }
@@ -111,5 +112,4 @@ ul, li {
   position: absolute;
   top: 0;
   right: 0;
-  bottom: 0;
 }

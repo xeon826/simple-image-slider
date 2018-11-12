@@ -270,8 +270,10 @@ var Slider = function() {
             'width': '100vw',
             'height': '56vw'
           })
+          $('.nav').animate({
+            'width':'95%'
+          })
         }
-        // this.renderer.setSize($('.slider').width(), $('.slider').height());
         this.renderer.setSize(this.el.offsetWidth, this.el.offsetHeight);
         this.renderer.render(this.scene, this.camera);
       })
