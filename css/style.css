@@ -34,8 +34,9 @@ ul, li {
   justify-content: center;
   align-items: center;
   display: flex;
-  width: 0;
-  overflow: hidden;
+  /* width: 0; */
+  width: 95%;
+  /* overflow: hidden; */
   top: 2rem;
   z-index: 10;
 }
